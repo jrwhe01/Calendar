@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calendar-container">
+        <header class="calendar-header">
+            <p class="calendar-current-date"></p>
+                <div class="calendar-nav">
+                    <span id="calendar-prev"
+                        class="material-symbols-rounded">
+                        chevron_left
+                    </span>
+                    <span id="calendar-next"
+                            class="material-symbols-rounded">
+                            chevron_right
+                    </span>
+                </div>
+        </header> 
+
+        <div class="calendar-body">
+            <ul class="calendar-weekdays">
+            <li>Sunday</li>
+            <li>Monday</li>
+            <li>Tuesday</li>
+            <li>Wednesday</li>
+            <li>Thursday</li>
+            <li>Friday</li>
+            <li>Saturday</li>
+            </ul>
+            <ul class="calendar-dates"></ul>
+        </div>
+    </div>    
+    <script src="./script.js"></script>
+</body>
+</html>
