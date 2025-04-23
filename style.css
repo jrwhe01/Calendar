@@ -6,7 +6,7 @@
 
 body {
     display: flex;
-    background: #be92de;
+    background: #7a9a79;
     min-height: 100vh;
     padding: 0 10px;
     align-items: center;
@@ -15,11 +15,18 @@ body {
 }
 
 .calendar-container {
-    background: #92a1de;
-    width: 450px;
+    background: #c9acd1;
+    width: 700px;
     border-radius: 10px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
     /*main calendar card*/
+}
+
+.calendar-container header {
+    display: flex;
+    align-items: center;
+    padding: 25px 30px 10px;
+    justify-content: space-between;
 }
 
 header .calendar-nav {
@@ -27,7 +34,7 @@ header .calendar-nav {
     /*formats arrow icons*/
 }
 
-header .calendar-navigation span {
+header .calendar-nav span {
     height: 38px;
     width: 38px;
     margin: 0 1px;
@@ -36,7 +43,7 @@ header .calendar-navigation span {
     line-height: 38px;
     border-radius: 50%;
     user-select: none;
-    color: #edb9d8;
+    color: #443a40;
     font-size: 1.9rem;
     /*makes the arrow clickable buttons*/
 }
@@ -47,7 +54,7 @@ header .calendar-navigation span {
 }
 
 header .calendar-nav span:hover {
-    background: #f2f2f2;
+    background: #f7f2f2;
     /*adds hover effct over icons*/
 }
 
@@ -92,7 +99,7 @@ header .calendar-current-date {
 }
 
 .calendar-dates li.inactive {
-    color: #aaa;
+    color: #757575;
     /*styles days that are inactive like days before the first*/
 }
 
