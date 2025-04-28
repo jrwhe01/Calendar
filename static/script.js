@@ -64,7 +64,9 @@ const manipulate = () => {
             && year === new Date().getFullYear()
             ? "active"
             : "";
-        lit += `<li class="${isToday}">${i}</li>`;
+        let fullDate = `${year}-${(month + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+        //creates a date for every active day, used to redirect when cliking a date
+        lit += `<li class="${isToday}" data-date="${fullDate}">${i}</li>`;
         //activates today's date
     }
 
@@ -78,8 +80,28 @@ const manipulate = () => {
 
 }
 
+function DateClickListeners()
+{
+    document.querySelectorAll(".calendar-dates li:not(.inactive)").forEach(day =>
+    {
+        day.addEventListener("click", function()
+        {
+            const clicked_date = this.dataset.date;
+            if (clicked_date)
+            {
+                console.log(`You clicked on the date: ${clicked_date}`)
+                window.location.href = `add-task/${clicked_date}`;
+            }
+        });
+    });
+}
+
+
 manipulate();
 //set up calendar
+DateClickListeners();
+//add buttons
+
 
 prenexIcons.forEach(icon => {
     icon.addEventListener("click", () => {
@@ -98,5 +120,6 @@ prenexIcons.forEach(icon => {
             date = new Date();
         }
         manipulate();
+        DateClickListeners();
     });
 });
