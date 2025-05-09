@@ -5,5 +5,10 @@
 </head>
 <body>
     <h1>Add a task for {{ date }}</h1>
+    <form method="POST">
+        <input type="text" name="task_name" placeholder="Enter task name" required>
+        <button type="submit">Add Task</button>
+    </form>
+    <a href="{{ url_for('index') }}">Back to Calendar</a>
 </body>
 </html>
