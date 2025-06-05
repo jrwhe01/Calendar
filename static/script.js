@@ -90,7 +90,7 @@ function DateClickListeners()
             if (clicked_date)
             {
                 console.log(`You clicked on the date: ${clicked_date}`)
-                window.location.href = `add-task/${clicked_date}`;
+                window.location.href = `tasks_for_date/${clicked_date}`;
             }
         });
     });

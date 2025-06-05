@@ -13,7 +13,14 @@ tasks_collection = db["tasks"]
 def index():
     return render_template('index.html')
 
-tasks_by_date = {}
+# tasks_by_date = {}
+
+@app.route('/tasks_for_date/<date>')
+def show_tasks(date):
+    tasks = list(tasks_collection.find({'date': date}))
+    return render_template('tasks_for_date.html', date=date, tasks=tasks)
+
+    
 
 @app.route('/add-task/<date>', methods=['GET', 'POST'])
 def add_task_date(date):
@@ -36,6 +43,7 @@ def add_task_date(date):
             tasks_collection.insert_one(task_data)
 
     # flash("Task added successfully!")
+        return redirect(url_for('show_tasks', date=date))
 
     return render_template('add_task.html', date=date)
 
