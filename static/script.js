@@ -123,3 +123,4 @@ prenexIcons.forEach(icon => {
         DateClickListeners();
     });
 });
+

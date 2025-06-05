@@ -11,45 +11,46 @@
     <h1>Add a task for {{ date }}</h1>
     <form method="POST">
         <div class="center-form">
-            <input type="text" name="task_name" placeholder="Enter task name" required>
+            <input type="text" name="taskname" placeholder="Enter task name" required>
         </div>
         <div class="center-form">
             <input type="text" name="description" placeholder="Enter description" >
         </div>
         <div class="center-form">
-            <label for="Start Time">Start Time:</label>
-            <select name="Hours" id="Hours">
+            <label for="StartTime">Start Time:</label>
+            <select name="stHours" id="stHours">
               <option value="" disabled selected>Select hour</option>
               {% for hour in range(1, 25) %}
                 <option value="{{ hour }}">{{ hour }}</option>
               {% endfor %}
             </select>
-            <select name="Minutes" id="Minuets">
+            <select name="stMinutes" id="stMinuets">
                 <option value="" disabled selected>Select minutes</option>
-                {% for minute in range(1, 60) %}
-                  <option value="{{ minute }}">{{ minute }}</option>
+                {% for minute in [00, 15, 30, 45] %}
+                <option value="{{ "%02d"|format(minute) }}">{{ "%02d"|format(minute) }}</option>
                 {% endfor %}
               </select>
-              <label for="End Time">End Time:</label>
-              <select name="Hours" id="Hours">
+              <label for="EndTime">End Time:</label>
+              <select name="etHours" id="etHours">
                 <option value="" disabled selected>Select hour</option>
                 {% for hour in range(1, 25) %}
                   <option value="{{ hour }}">{{ hour }}</option>
                 {% endfor %}
               </select>
-              <select name="Minutes" id="Minuets">
+              <select name="etMinutes" >
                   <option value="" disabled selected>Select minutes</option>
-                  {% for minute in range(1, 60) %}
-                    <option value="{{ minute }}">{{ minute }}</option>
+                  {% for minute in [00, 15, 30, 45] %}
+                  <option value="{{ "%02d"|format(minute) }}">{{ "%02d"|format(minute) }}</option>
                   {% endfor %}
                 </select>
         </div>
         <div class="center-form">
-            <button type="submit">Add Task</button>
+            <button id="addTask" type="submit">Add Task</button>
         </div>
     </form>    
     <div class="center-form">
     <a href="{{ url_for('index') }}">Back to Calendar</a>
     </div>
+
 </body>
 </html>
