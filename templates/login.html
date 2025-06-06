@@ -1,32 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login - Task Calendar</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
-</head>
+<html>
+<head><title>Login</title></head>
+<link rel="stylesheet" href="{{ url_for('static', filename='loginstyle.css') }}">
+<link rel="stylesheet" href=
+"https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 <body>
-    <div class="login-container">
-        <h2>Login to Your Task Calendar</h2>
-        <form method="POST" action="{{ url_for('login') }}">
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" name="username" id="username" required>
-            </div>
+    <h2>Enter Your Name</h2>
+    <form method="POST">
+        <div class="center-form">
+        <input type="text" name="username" placeholder="Username" required>
+        </div>
+        <button id="login" type="submit">Login</button>
 
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" required>
-            </div>
-
-            <button type="submit">Login</button>
-        </form>
-
-        {% if error %}
-            <p class="error">{{ error }}</p>
-        {% endif %}
-
-        <p>Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
-    </div>
+    </form>
 </body>
 </html>

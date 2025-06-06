@@ -1,30 +1,45 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from pymongo import MongoClient, ASCENDING
-from datetime import datetime
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
-# app.secret_key = 'secret_key' 
+app.secret_key = 'your_secret_key'
 
 client = MongoClient("mongodb://localhost:27017/")
 db = client["calendar"]
-tasks_collection = db["tasks"]
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# Login route
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username'].strip().lower()
+        if username:
+            session['username'] = username
+            return redirect(url_for('calendar'))
+    return render_template('login.html')
 
-# tasks_by_date = {}
+@app.route('/calendar')
+def calendar():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template('calendar.html', username=session['username'])
 
 @app.route('/tasks_for_date/<date>')
 def show_tasks(date):
-    tasks = list(tasks_collection.find({'date': date}).sort("start_time", ASCENDING))
-    return render_template('tasks_for_date.html', date=date, tasks=tasks)
+    if 'username' not in session:
+        return redirect(url_for('login'))
 
-    
+    task_collection = db[f"tasks_{session['username']}"]
+    tasks = list(task_collection.find({'date': date}).sort("start_time", ASCENDING))
+    return render_template('tasks_for_date.html', date=date, tasks=tasks)
 
 @app.route('/add-task/<date>', methods=['GET', 'POST'])
 def add_task_date(date):
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    task_collection = db[f"tasks_{session['username']}"]
+
     if request.method == 'POST':
         task_name = request.form.get('taskname') 
         description = request.form.get('description')
@@ -41,20 +56,24 @@ def add_task_date(date):
                 "end_time": f"{et_hour}:{et_min}",
                 "date": date,
             }
-            tasks_collection.insert_one(task_data)
-
-    # flash("Task added successfully!")
-        return redirect(url_for('show_tasks', date=date))
+            task_collection.insert_one(task_data)
+            return redirect(url_for('show_tasks', date=date))
 
     return render_template('add_task.html', date=date)
 
 @app.route('/delete-task/<task_id>', methods=['POST'])
 def delete_task(task_id):
-    task = tasks_collection.find_one({"_id": ObjectId(task_id)})
+    task_collection = db[f"tasks_{session['username']}"]
+    task = task_collection.find_one({"_id": ObjectId(task_id)})
     if task:
-        tasks_collection.delete_one({"_id": ObjectId(task_id)})
+        task_collection.delete_one({"_id": ObjectId(task_id)})
         return redirect(url_for('show_tasks', date=task["date"]))
     return "Task not found", 404
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
