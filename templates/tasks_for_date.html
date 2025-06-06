@@ -3,7 +3,7 @@
 <head>
     <title>Schedule for {{ date }}</title>
 </head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='taskstyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='schestyle.css') }}">
         <link rel="stylesheet" href=
 "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 <body>
@@ -15,7 +15,10 @@
                 <li>
                     <strong>{{ task.taskname }}</strong><br>
                     {{ task.description }}<br>
-                    {{ task.stHours }}:{{ task.stMinutes }} – {{ task.etHours }}:{{ task.etMinutes }}
+                    {{ task.start_time }} – {{ task.end_time }}
+                    <form action="{{ url_for('delete_task', task_id=task._id) }}" method="POST" style="display:inline;">
+                        <button id="delete" type="submit" >Delete</button>
+                    </form>
                 </li>
             {% endfor %}
         </ul>
@@ -26,8 +29,9 @@
     <div>
        <button id="addATask" >Add Task</button> 
     </div>
-
+    <div class="center-form">
     <a href="{{ url_for('index') }}">Back to Calendar</a>
+    </div>
     <script>
         document.getElementById("addATask").addEventListener("click", function() {
             const date = "{{ date }}";

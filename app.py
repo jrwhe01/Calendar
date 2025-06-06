@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
-from pymongo import MongoClient
+from pymongo import MongoClient, ASCENDING
 from datetime import datetime
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 # app.secret_key = 'secret_key' 
@@ -17,7 +18,7 @@ def index():
 
 @app.route('/tasks_for_date/<date>')
 def show_tasks(date):
-    tasks = list(tasks_collection.find({'date': date}))
+    tasks = list(tasks_collection.find({'date': date}).sort("start_time", ASCENDING))
     return render_template('tasks_for_date.html', date=date, tasks=tasks)
 
     
@@ -46,6 +47,14 @@ def add_task_date(date):
         return redirect(url_for('show_tasks', date=date))
 
     return render_template('add_task.html', date=date)
+
+@app.route('/delete-task/<task_id>', methods=['POST'])
+def delete_task(task_id):
+    task = tasks_collection.find_one({"_id": ObjectId(task_id)})
+    if task:
+        tasks_collection.delete_one({"_id": ObjectId(task_id)})
+        return redirect(url_for('show_tasks', date=task["date"]))
+    return "Task not found", 404
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -10,7 +10,7 @@ body {
 
   h1 {
     color: rgb(55, 55, 133);
-    border: 2px solid powderblue;
+    border: 2px;
     padding: 50px;
     text-align: center;
   }
